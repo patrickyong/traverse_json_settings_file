@@ -1,5 +1,8 @@
-import json
+import getopt
+import sys
+
 from pyjson5 import pyjson5
+
 
 # https://stackoverflow.com/questions/18495098/python-check-if-an-object-is-a-list-of-strings
 
@@ -42,8 +45,30 @@ def walk(d):
 
 
 if __name__ == '__main__':
-    with open('test.json', encoding="utf-8-sig") as f:
-        j = pyjson5.load(f)
-    path = []
-    walk(j)
+    project_id = ''
+    setting_file = 'test.json'
+
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "hp:s:", ["projectid=", "settingFile="])
+
+        for opt, arg in opts:
+            if opt == '-h':
+                print('test.py -p <project_id> -s <setting_file>')
+                sys.exit()
+            elif opt in ("-p", "--projectid"):
+                project_id = arg
+            elif opt in ("-s", "--settingfile"):
+                setting_file = arg
+
+        with open(setting_file, encoding="utf-8-sig") as f:
+            j = pyjson5.load(f)
+        path = []
+        walk(j)
+
+    except getopt.GetoptError:
+        print('test.py -p <project_id> -s <setting_file>')
+        sys.exit(2)
+
+
+
 
