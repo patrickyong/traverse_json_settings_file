@@ -1,5 +1,5 @@
 import json
-
+from pyjson5 import pyjson5
 
 # https://stackoverflow.com/questions/18495098/python-check-if-an-object-is-a-list-of-strings
 
@@ -43,13 +43,7 @@ def walk(d):
 
 if __name__ == '__main__':
     with open('test.json', encoding="utf-8-sig") as f:
-        myjson = json.load(f)
-
+        j = pyjson5.load(f)
     path = []
-    walk(myjson)
+    walk(j)
 
-    #fh = open('test.json', "r", encoding="utf-8-sig")
-    #rawText = fh.read()
-    #json_data = rawText[rawText.index("\n", 3) + 1:]
-    #path = []
-    #walk(json_data)
