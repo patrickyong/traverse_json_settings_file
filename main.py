@@ -16,9 +16,13 @@ def is_list_of_strings(lst):
 
 # https://stackoverflow.com/questions/12507206/how-to-completely-traverse-a-complex-dictionary-of-unknown-depth
 
-def walk(d):
+
+
+def walk(d, pf):
     global path
 
+    if len(pf) > 0:
+        path.append(pf)
     for k, v in d.items():
         if isinstance(v, str) or isinstance(v, int) or isinstance(v, float):
             path.append(k)
@@ -34,11 +38,12 @@ def walk(d):
                 print("{}={}".format("\\".join(path), v))
             else:
                 for v_int in v:
-                    walk(v_int)
+
+                    walk(v_int, '')
             path.pop()
         elif isinstance(v, dict):
             path.append(k)
-            walk(v)
+            walk(v, prefix)
             path.pop()
         else:
             print("###Type {} not recognized: {}.{}={}".format(type(v), ".".join(path), k, v))
@@ -47,9 +52,10 @@ def walk(d):
 if __name__ == '__main__':
     project_id = ''
     setting_file = 'test.json'
+    prefix = 'Local'
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hp:s:", ["projectid=", "settingFile="])
+        opts, args = getopt.getopt(sys.argv[1:], "hp:s:p:", ["projectid=", "settingFile=", "prefix="])
 
         for opt, arg in opts:
             if opt == '-h':
@@ -59,11 +65,13 @@ if __name__ == '__main__':
                 project_id = arg
             elif opt in ("-s", "--settingfile"):
                 setting_file = arg
+            elif opt in ("-p", "--prefix"):
+                prefix = arg
 
         with open(setting_file, encoding="utf-8-sig") as f:
             j = pyjson5.load(f)
         path = []
-        walk(j)
+        walk(j, prefix)
 
     except getopt.GetoptError:
         print('test.py -p <project_id> -s <setting_file>')
