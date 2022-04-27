@@ -1,0 +1,21 @@
+{
+    "User": "TestUser",
+    "StartDate": "2020-1-1",
+    "Balance": 1223.38,
+    "Address": [
+        {"Street": "1 Main Street"},
+        {"PostalCode": "23466"}
+    ],
+  "Currencies": [
+      "USD",
+      "JPY",
+      "EUR",
+      "GBP",
+      "SGD",
+      "HKD",
+      "CNY",
+      "IDR",
+      "AED",
+      "CAD"
+    ]
+}
