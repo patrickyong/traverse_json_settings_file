@@ -16,17 +16,17 @@ def is_list_of_strings(lst):
 
 # https://stackoverflow.com/questions/12507206/how-to-completely-traverse-a-complex-dictionary-of-unknown-depth
 
-
-
 def walk(d, pf):
     global path
 
     if len(pf) > 0:
         path.append(pf)
     for k, v in d.items():
+        detail = ''
         if isinstance(v, str) or isinstance(v, int) or isinstance(v, float):
             path.append(k)
-            print("{}={}".format("\\".join(path), v))
+            detail = "{}={}".format("\\".join(path), v)
+            print(detail)
             path.pop()
         elif v is None:
             path.append(k)
@@ -35,7 +35,11 @@ def walk(d, pf):
         elif isinstance(v, list):
             path.append(k)
             if is_list_of_strings(v):
-                print("{}={}".format("\\".join(path), v))
+                elements = []
+                for elem in v:
+                    elements.append(elem)
+                detail = "{}={}".format("\\".join(path), "{}".format(",".join(elements)))
+                print(detail)
             else:
                 for v_int in v:
 
